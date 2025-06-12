@@ -1,10 +1,11 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, Square, RotateCcw } from 'lucide-react';
+import { Play, Pause, RotateCcw, Settings as SettingsIcon, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
+import { translations } from '@/utils/translations';
+import Settings from '@/components/Settings';
+import About from '@/components/About';
 
 const TIMER_MODES = {
   FOCUS: { duration: 25 * 60, label: 'Odaklanma', color: 'from-red-500 to-orange-500' },
@@ -13,12 +14,31 @@ const TIMER_MODES = {
 };
 
 const Index = () => {
+  const [language, setLanguage] = useState('tr');
+  const [timerSettings, setTimerSettings] = useState({
+    focus: 25,
+    shortBreak: 5,
+    longBreak: 15
+  });
+
   const [currentMode, setCurrentMode] = useState('FOCUS');
   const [timeLeft, setTimeLeft] = useState(TIMER_MODES.FOCUS.duration);
   const [isRunning, setIsRunning] = useState(false);
   const [completedSessions, setCompletedSessions] = useState({ focus: 0, shortBreak: 0, longBreak: 0 });
+  const [showSettings, setShowSettings] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const { toast } = useToast();
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const t = translations[language as keyof typeof translations];
+
+  useEffect(() => {
+    // Update timer when settings change
+    const newMode = TIMER_MODES[currentMode as keyof typeof TIMER_MODES];
+    if (!isRunning) {
+      setTimeLeft(newMode.duration);
+    }
+  }, [timerSettings, currentMode, isRunning]);
 
   useEffect(() => {
     if (isRunning && timeLeft > 0) {
@@ -48,27 +68,25 @@ const Index = () => {
   const handleTimerComplete = () => {
     setIsRunning(false);
     
-    // Update completed sessions
     if (currentMode === 'FOCUS') {
       setCompletedSessions(prev => ({ ...prev, focus: prev.focus + 1 }));
       toast({
-        title: "Odaklanma süresi tamamlandı! 🎉",
-        description: "Kısa bir mola verme zamanı.",
+        title: `${t.sessionComplete} 🎉`,
+        description: t.shortBreak,
       });
-      // Auto switch to short break
       setTimeout(() => switchMode('SHORT_BREAK'), 2000);
     } else if (currentMode === 'SHORT_BREAK') {
       setCompletedSessions(prev => ({ ...prev, shortBreak: prev.shortBreak + 1 }));
       toast({
-        title: "Mola tamamlandı! 💪",
-        description: "Tekrar odaklanma zamanı!",
+        title: `${t.breakComplete} 💪`,
+        description: t.focus,
       });
       setTimeout(() => switchMode('FOCUS'), 2000);
     } else {
       setCompletedSessions(prev => ({ ...prev, longBreak: prev.longBreak + 1 }));
       toast({
-        title: "Uzun mola tamamlandı! 🚀",
-        description: "Yeni bir odaklanma döngüsü başlıyor!",
+        title: `${t.breakComplete} 🚀`,
+        description: t.focus,
       });
       setTimeout(() => switchMode('FOCUS'), 2000);
     }
@@ -101,10 +119,28 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-white">Pomodoro Timer</h1>
-          <p className="text-slate-300">Odaklanın, mola verin, tekrarlayın</p>
+        {/* Header with Settings and About buttons */}
+        <div className="text-center space-y-2 relative">
+          <div className="absolute top-0 right-0 flex gap-2">
+            <Button
+              onClick={() => setShowSettings(true)}
+              variant="outline"
+              size="sm"
+              className="border-slate-600 text-slate-300 hover:bg-slate-700"
+            >
+              <SettingsIcon className="w-4 h-4" />
+            </Button>
+            <Button
+              onClick={() => setShowAbout(true)}
+              variant="outline"
+              size="sm"
+              className="border-slate-600 text-slate-300 hover:bg-slate-700"
+            >
+              <Info className="w-4 h-4" />
+            </Button>
+          </div>
+          <h1 className="text-3xl font-bold text-white">{t.appName}</h1>
+          <p className="text-slate-300">{t.tagline}</p>
         </div>
 
         {/* Mode Selector */}
@@ -119,7 +155,7 @@ const Index = () => {
                   : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
               }`}
             >
-              {mode.label}
+              {t[mode.label as keyof typeof t]}
             </button>
           ))}
         </div>
@@ -128,10 +164,8 @@ const Index = () => {
         <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm">
           <CardContent className="p-8">
             <div className="relative w-64 h-64 mx-auto">
-              {/* Background Circle */}
               <div className="absolute inset-0 rounded-full border-8 border-slate-700"></div>
               
-              {/* Progress Circle */}
               <div 
                 className={`absolute inset-0 rounded-full border-8 bg-gradient-to-r ${currentModeData.color}`}
                 style={{
@@ -141,14 +175,13 @@ const Index = () => {
                 }}
               ></div>
               
-              {/* Time Display */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-5xl font-bold text-white mb-2">
                     {formatTime(timeLeft)}
                   </div>
                   <div className={`text-lg font-medium bg-gradient-to-r ${currentModeData.color} bg-clip-text text-transparent`}>
-                    {currentModeData.label}
+                    {t[currentModeData.label as keyof typeof t]}
                   </div>
                 </div>
               </div>
@@ -164,7 +197,7 @@ const Index = () => {
             className={`bg-gradient-to-r ${currentModeData.color} hover:opacity-90 text-white shadow-lg px-8`}
           >
             {isRunning ? <Pause className="w-5 h-5 mr-2" /> : <Play className="w-5 h-5 mr-2" />}
-            {isRunning ? 'Duraklat' : 'Başlat'}
+            {isRunning ? t.pause : t.start}
           </Button>
           
           <Button
@@ -174,26 +207,26 @@ const Index = () => {
             className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white"
           >
             <RotateCcw className="w-5 h-5 mr-2" />
-            Sıfırla
+            {t.reset}
           </Button>
         </div>
 
         {/* Statistics */}
         <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm">
           <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 text-center">Bugünkü İstatistikler</h3>
+            <h3 className="text-lg font-semibold text-white mb-4 text-center">{t.todayStats}</h3>
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-red-400">{completedSessions.focus}</div>
-                <div className="text-sm text-slate-400">Odaklanma</div>
+                <div className="text-sm text-slate-400">{t.focus}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-400">{completedSessions.shortBreak}</div>
-                <div className="text-sm text-slate-400">Kısa Mola</div>
+                <div className="text-sm text-slate-400">{t.shortBreak}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-400">{completedSessions.longBreak}</div>
-                <div className="text-sm text-slate-400">Uzun Mola</div>
+                <div className="text-sm text-slate-400">{t.longBreak}</div>
               </div>
             </div>
           </CardContent>
@@ -203,11 +236,26 @@ const Index = () => {
         <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm">
           <CardContent className="p-4">
             <div className="text-center text-sm text-slate-300">
-              💡 <strong>İpucu:</strong> Her 4 odaklanma seansından sonra uzun mola verin
+              💡 <strong>{t.tip.split(':')[0]}:</strong> {t.tip.split(':')[1]}
             </div>
           </CardContent>
         </Card>
       </div>
+
+      <Settings
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        language={language}
+        onLanguageChange={setLanguage}
+        timerSettings={timerSettings}
+        onTimerSettingsChange={setTimerSettings}
+      />
+
+      <About
+        isOpen={showAbout}
+        onClose={() => setShowAbout(false)}
+        language={language}
+      />
     </div>
   );
 };
