@@ -141,150 +141,461 @@ const Index = () => {
   const progress = ((updatedModes[currentMode as keyof typeof updatedModes].duration - timeLeft) / updatedModes[currentMode as keyof typeof updatedModes].duration) * 100;
 
   return (
-    <div className={`min-h-screen ${background} flex items-center justify-center p-4 transition-all duration-500`}>
-      <div className="w-full max-w-md space-y-6 animate-fade-in">
-        {/* Header with title and buttons */}
-        <div className="text-center space-y-2">
-          <div className="flex justify-between items-start mb-4">
-            <div className="flex-1"></div>
-            <div className="text-center">
-              <h1 className="text-3xl font-bold text-white animate-bounce-in">{t.appName}</h1>
-              <p className="text-slate-300 animate-fade-in">{t.tagline}</p>
-            </div>
-            <div className="flex gap-2 flex-1 justify-end">
-              <Button
-                onClick={() => setShowBackgroundSettings(true)}
-                variant="outline"
-                size="sm"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
-              >
-                <Palette className="w-4 h-4" />
-              </Button>
-              <Button
-                onClick={() => setShowAchievements(true)}
-                variant="outline"
-                size="sm"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
-              >
-                <Trophy className="w-4 h-4" />
-              </Button>
-              <Button
-                onClick={() => setShowSettings(true)}
-                variant="outline"
-                size="sm"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
-              >
-                <SettingsIcon className="w-4 h-4" />
-              </Button>
-              <Button
-                onClick={() => setShowAbout(true)}
-                variant="outline"
-                size="sm"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
-              >
-                <Info className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mode Selector */}
-        <div className="flex bg-slate-800/50 rounded-xl p-1 backdrop-blur-sm border border-slate-700 animate-scale-in">
-          {Object.entries(TIMER_MODES).map(([key, mode]) => (
-            <button
-              key={key}
-              onClick={() => switchMode(key)}
-              className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
-                currentMode === key
-                  ? `bg-gradient-to-r ${mode.color} text-white shadow-lg animate-pulse-slow`
-                  : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
-              }`}
-            >
-              {t[mode.label as keyof typeof t]}
-            </button>
-          ))}
-        </div>
-
-        {/* Timer Circle */}
-        <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-scale-in">
-          <CardContent className="p-8">
-            <div className="relative w-64 h-64 mx-auto">
-              <div className="absolute inset-0 rounded-full border-8 border-slate-700"></div>
-              
-              <div 
-                className={`absolute inset-0 rounded-full border-8 transition-all duration-1000 ${isRunning ? 'animate-pulse' : ''}`}
-                style={{
-                  background: `conic-gradient(from 0deg, transparent ${100 - progress}%, rgb(239 68 68) ${100 - progress}%)`,
-                  WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 8px), black calc(100% - 8px))',
-                  mask: 'radial-gradient(farthest-side, transparent calc(100% - 8px), black calc(100% - 8px))'
-                }}
-              ></div>
-              
-              <div className="absolute inset-0 flex items-center justify-center">
+    <div className={`min-h-screen ${background} transition-all duration-500`}>
+      {/* Mobile Portrait Layout */}
+      <div className="block lg:hidden portrait:block">
+        <div className="flex items-center justify-center p-4 min-h-screen">
+          <div className="w-full max-w-md space-y-6 animate-fade-in">
+            {/* Header with title and buttons */}
+            <div className="text-center space-y-2">
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex-1"></div>
                 <div className="text-center">
-                  <div className="text-5xl font-bold text-white mb-2 animate-bounce-in">
-                    {formatTime(timeLeft)}
-                  </div>
-                  <div className={`text-lg font-medium bg-gradient-to-r ${currentModeData.color} bg-clip-text text-transparent`}>
-                    {t[currentModeData.label as keyof typeof t]}
-                  </div>
+                  <h1 className="text-3xl font-bold text-white animate-bounce-in">{t.appName}</h1>
+                  <p className="text-slate-300 animate-fade-in">{t.tagline}</p>
+                </div>
+                <div className="flex gap-2 flex-1 justify-end">
+                  <Button
+                    onClick={() => setShowBackgroundSettings(true)}
+                    variant="outline"
+                    size="sm"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                  >
+                    <Palette className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    onClick={() => setShowAchievements(true)}
+                    variant="outline"
+                    size="sm"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                  >
+                    <Trophy className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    onClick={() => setShowSettings(true)}
+                    variant="outline"
+                    size="sm"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                  >
+                    <SettingsIcon className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    onClick={() => setShowAbout(true)}
+                    variant="outline"
+                    size="sm"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                  >
+                    <Info className="w-4 h-4" />
+                  </Button>
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
 
-        {/* Controls */}
-        <div className="flex justify-center gap-4 animate-scale-in">
-          <Button
-            onClick={toggleTimer}
-            size="lg"
-            className={`bg-gradient-to-r ${currentModeData.color} hover:opacity-90 text-white shadow-lg px-8 transition-all duration-300 hover:scale-105`}
-          >
-            {isRunning ? <Pause className="w-5 h-5 mr-2" /> : <Play className="w-5 h-5 mr-2" />}
-            {isRunning ? t.pause : t.start}
-          </Button>
-          
-          <Button
-            onClick={resetTimer}
-            variant="outline"
-            size="lg"
-            className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300 hover:scale-105"
-          >
-            <RotateCcw className="w-5 h-5 mr-2" />
-            {t.reset}
-          </Button>
+            {/* Mode Selector */}
+            <div className="flex bg-slate-800/50 rounded-xl p-1 backdrop-blur-sm border border-slate-700 animate-scale-in">
+              {Object.entries(TIMER_MODES).map(([key, mode]) => (
+                <button
+                  key={key}
+                  onClick={() => switchMode(key)}
+                  className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                    currentMode === key
+                      ? `bg-gradient-to-r ${mode.color} text-white shadow-lg animate-pulse-slow`
+                      : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                  }`}
+                >
+                  {t[mode.label as keyof typeof t]}
+                </button>
+              ))}
+            </div>
+
+            {/* Timer Circle */}
+            <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-scale-in">
+              <CardContent className="p-8">
+                <div className="relative w-64 h-64 mx-auto">
+                  <div className="absolute inset-0 rounded-full border-8 border-slate-700"></div>
+                  
+                  <div 
+                    className={`absolute inset-0 rounded-full border-8 transition-all duration-1000 ${isRunning ? 'animate-pulse' : ''}`}
+                    style={{
+                      background: `conic-gradient(from 0deg, transparent ${100 - progress}%, rgb(239 68 68) ${100 - progress}%)`,
+                      WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 8px), black calc(100% - 8px))',
+                      mask: 'radial-gradient(farthest-side, transparent calc(100% - 8px), black calc(100% - 8px))'
+                    }}
+                  ></div>
+                  
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="text-5xl font-bold text-white mb-2 animate-bounce-in">
+                        {formatTime(timeLeft)}
+                      </div>
+                      <div className={`text-lg font-medium bg-gradient-to-r ${currentModeData.color} bg-clip-text text-transparent`}>
+                        {t[currentModeData.label as keyof typeof t]}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Controls */}
+            <div className="flex justify-center gap-4 animate-scale-in">
+              <Button
+                onClick={toggleTimer}
+                size="lg"
+                className={`bg-gradient-to-r ${currentModeData.color} hover:opacity-90 text-white shadow-lg px-8 transition-all duration-300 hover:scale-105`}
+              >
+                {isRunning ? <Pause className="w-5 h-5 mr-2" /> : <Play className="w-5 h-5 mr-2" />}
+                {isRunning ? t.pause : t.start}
+              </Button>
+              
+              <Button
+                onClick={resetTimer}
+                variant="outline"
+                size="lg"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300 hover:scale-105"
+              >
+                <RotateCcw className="w-5 h-5 mr-2" />
+                {t.reset}
+              </Button>
+            </div>
+
+            {/* Statistics */}
+            <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-scale-in">
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold text-white mb-4 text-center">{t.todayStats}</h3>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="text-center animate-bounce-in">
+                    <div className="text-2xl font-bold text-red-400">{completedSessions.focus}</div>
+                    <div className="text-sm text-slate-400">{t.focus}</div>
+                  </div>
+                  <div className="text-center animate-bounce-in">
+                    <div className="text-2xl font-bold text-green-400">{completedSessions.shortBreak}</div>
+                    <div className="text-sm text-slate-400">{t.shortBreak}</div>
+                  </div>
+                  <div className="text-center animate-bounce-in">
+                    <div className="text-2xl font-bold text-blue-400">{completedSessions.longBreak}</div>
+                    <div className="text-sm text-slate-400">{t.longBreak}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Tips */}
+            <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-fade-in">
+              <CardContent className="p-4">
+                <div className="text-center text-sm text-slate-300">
+                  💡 <strong>{t.tip.split(':')[0]}:</strong> {t.tip.split(':')[1]}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
+      </div>
 
-        {/* Statistics */}
-        <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-scale-in">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 text-center">{t.todayStats}</h3>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center animate-bounce-in">
-                <div className="text-2xl font-bold text-red-400">{completedSessions.focus}</div>
-                <div className="text-sm text-slate-400">{t.focus}</div>
+      {/* Mobile Landscape Layout */}
+      <div className="hidden lg:block landscape:block landscape:lg:hidden">
+        <div className="flex items-center justify-center p-4 min-h-screen">
+          <div className="w-full max-w-6xl space-y-4 animate-fade-in">
+            {/* Header - Compact for landscape */}
+            <div className="flex justify-between items-center mb-4">
+              <div className="text-center">
+                <h1 className="text-2xl font-bold text-white animate-bounce-in">{t.appName}</h1>
+                <p className="text-sm text-slate-300 animate-fade-in">{t.tagline}</p>
               </div>
-              <div className="text-center animate-bounce-in">
-                <div className="text-2xl font-bold text-green-400">{completedSessions.shortBreak}</div>
-                <div className="text-sm text-slate-400">{t.shortBreak}</div>
-              </div>
-              <div className="text-center animate-bounce-in">
-                <div className="text-2xl font-bold text-blue-400">{completedSessions.longBreak}</div>
-                <div className="text-sm text-slate-400">{t.longBreak}</div>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => setShowBackgroundSettings(true)}
+                  variant="outline"
+                  size="sm"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                >
+                  <Palette className="w-4 h-4" />
+                </Button>
+                <Button
+                  onClick={() => setShowAchievements(true)}
+                  variant="outline"
+                  size="sm"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                >
+                  <Trophy className="w-4 h-4" />
+                </Button>
+                <Button
+                  onClick={() => setShowSettings(true)}
+                  variant="outline"
+                  size="sm"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                >
+                  <SettingsIcon className="w-4 h-4" />
+                </Button>
+                <Button
+                  onClick={() => setShowAbout(true)}
+                  variant="outline"
+                  size="sm"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                >
+                  <Info className="w-4 h-4" />
+                </Button>
               </div>
             </div>
-          </CardContent>
-        </Card>
 
-        {/* Tips */}
-        <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-fade-in">
-          <CardContent className="p-4">
-            <div className="text-center text-sm text-slate-300">
-              💡 <strong>{t.tip.split(':')[0]}:</strong> {t.tip.split(':')[1]}
+            {/* Landscape layout - side by side */}
+            <div className="grid grid-cols-2 gap-6">
+              {/* Left side - Timer and controls */}
+              <div className="space-y-4">
+                {/* Mode Selector */}
+                <div className="flex bg-slate-800/50 rounded-xl p-1 backdrop-blur-sm border border-slate-700 animate-scale-in">
+                  {Object.entries(TIMER_MODES).map(([key, mode]) => (
+                    <button
+                      key={key}
+                      onClick={() => switchMode(key)}
+                      className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                        currentMode === key
+                          ? `bg-gradient-to-r ${mode.color} text-white shadow-lg animate-pulse-slow`
+                          : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                      }`}
+                    >
+                      {t[mode.label as keyof typeof t]}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Timer Circle - Smaller for landscape */}
+                <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-scale-in">
+                  <CardContent className="p-6">
+                    <div className="relative w-48 h-48 mx-auto">
+                      <div className="absolute inset-0 rounded-full border-6 border-slate-700"></div>
+                      
+                      <div 
+                        className={`absolute inset-0 rounded-full border-6 transition-all duration-1000 ${isRunning ? 'animate-pulse' : ''}`}
+                        style={{
+                          background: `conic-gradient(from 0deg, transparent ${100 - progress}%, rgb(239 68 68) ${100 - progress}%)`,
+                          WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 6px), black calc(100% - 6px))',
+                          mask: 'radial-gradient(farthest-side, transparent calc(100% - 6px), black calc(100% - 6px))'
+                        }}
+                      ></div>
+                      
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-3xl font-bold text-white mb-2 animate-bounce-in">
+                            {formatTime(timeLeft)}
+                          </div>
+                          <div className={`text-sm font-medium bg-gradient-to-r ${currentModeData.color} bg-clip-text text-transparent`}>
+                            {t[currentModeData.label as keyof typeof t]}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Controls */}
+                <div className="flex justify-center gap-4 animate-scale-in">
+                  <Button
+                    onClick={toggleTimer}
+                    size="lg"
+                    className={`bg-gradient-to-r ${currentModeData.color} hover:opacity-90 text-white shadow-lg px-6 transition-all duration-300 hover:scale-105`}
+                  >
+                    {isRunning ? <Pause className="w-4 h-4 mr-2" /> : <Play className="w-4 h-4 mr-2" />}
+                    {isRunning ? t.pause : t.start}
+                  </Button>
+                  
+                  <Button
+                    onClick={resetTimer}
+                    variant="outline"
+                    size="lg"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300 hover:scale-105"
+                  >
+                    <RotateCcw className="w-4 h-4 mr-2" />
+                    {t.reset}
+                  </Button>
+                </div>
+              </div>
+
+              {/* Right side - Statistics and tips */}
+              <div className="space-y-4">
+                {/* Statistics */}
+                <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-scale-in">
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold text-white mb-4 text-center">{t.todayStats}</h3>
+                    <div className="grid grid-cols-1 gap-4">
+                      <div className="text-center animate-bounce-in">
+                        <div className="text-3xl font-bold text-red-400">{completedSessions.focus}</div>
+                        <div className="text-sm text-slate-400">{t.focus}</div>
+                      </div>
+                      <div className="text-center animate-bounce-in">
+                        <div className="text-3xl font-bold text-green-400">{completedSessions.shortBreak}</div>
+                        <div className="text-sm text-slate-400">{t.shortBreak}</div>
+                      </div>
+                      <div className="text-center animate-bounce-in">
+                        <div className="text-3xl font-bold text-blue-400">{completedSessions.longBreak}</div>
+                        <div className="text-sm text-slate-400">{t.longBreak}</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Tips */}
+                <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-fade-in">
+                  <CardContent className="p-4">
+                    <div className="text-center text-sm text-slate-300">
+                      💡 <strong>{t.tip.split(':')[0]}:</strong> {t.tip.split(':')[1]}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden lg:block landscape:hidden">
+        <div className="flex items-center justify-center p-4 min-h-screen">
+          <div className="w-full max-w-md space-y-6 animate-fade-in">
+            {/* Header with title and buttons */}
+            <div className="text-center space-y-2">
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex-1"></div>
+                <div className="text-center">
+                  <h1 className="text-3xl font-bold text-white animate-bounce-in">{t.appName}</h1>
+                  <p className="text-slate-300 animate-fade-in">{t.tagline}</p>
+                </div>
+                <div className="flex gap-2 flex-1 justify-end">
+                  <Button
+                    onClick={() => setShowBackgroundSettings(true)}
+                    variant="outline"
+                    size="sm"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                  >
+                    <Palette className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    onClick={() => setShowAchievements(true)}
+                    variant="outline"
+                    size="sm"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                  >
+                    <Trophy className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    onClick={() => setShowSettings(true)}
+                    variant="outline"
+                    size="sm"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                  >
+                    <SettingsIcon className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    onClick={() => setShowAbout(true)}
+                    variant="outline"
+                    size="sm"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+                  >
+                    <Info className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Mode Selector */}
+            <div className="flex bg-slate-800/50 rounded-xl p-1 backdrop-blur-sm border border-slate-700 animate-scale-in">
+              {Object.entries(TIMER_MODES).map(([key, mode]) => (
+                <button
+                  key={key}
+                  onClick={() => switchMode(key)}
+                  className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                    currentMode === key
+                      ? `bg-gradient-to-r ${mode.color} text-white shadow-lg animate-pulse-slow`
+                      : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                  }`}
+                >
+                  {t[mode.label as keyof typeof t]}
+                </button>
+              ))}
+            </div>
+
+            {/* Timer Circle */}
+            <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-scale-in">
+              <CardContent className="p-8">
+                <div className="relative w-64 h-64 mx-auto">
+                  <div className="absolute inset-0 rounded-full border-8 border-slate-700"></div>
+                  
+                  <div 
+                    className={`absolute inset-0 rounded-full border-8 transition-all duration-1000 ${isRunning ? 'animate-pulse' : ''}`}
+                    style={{
+                      background: `conic-gradient(from 0deg, transparent ${100 - progress}%, rgb(239 68 68) ${100 - progress}%)`,
+                      WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 8px), black calc(100% - 8px))',
+                      mask: 'radial-gradient(farthest-side, transparent calc(100% - 8px), black calc(100% - 8px))'
+                    }}
+                  ></div>
+                  
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="text-5xl font-bold text-white mb-2 animate-bounce-in">
+                        {formatTime(timeLeft)}
+                      </div>
+                      <div className={`text-lg font-medium bg-gradient-to-r ${currentModeData.color} bg-clip-text text-transparent`}>
+                        {t[currentModeData.label as keyof typeof t]}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Controls */}
+            <div className="flex justify-center gap-4 animate-scale-in">
+              <Button
+                onClick={toggleTimer}
+                size="lg"
+                className={`bg-gradient-to-r ${currentModeData.color} hover:opacity-90 text-white shadow-lg px-8 transition-all duration-300 hover:scale-105`}
+              >
+                {isRunning ? <Pause className="w-5 h-5 mr-2" /> : <Play className="w-5 h-5 mr-2" />}
+                {isRunning ? t.pause : t.start}
+              </Button>
+              
+              <Button
+                onClick={resetTimer}
+                variant="outline"
+                size="lg"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300 hover:scale-105"
+              >
+                <RotateCcw className="w-5 h-5 mr-2" />
+                {t.reset}
+              </Button>
+            </div>
+
+            {/* Statistics */}
+            <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-scale-in">
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold text-white mb-4 text-center">{t.todayStats}</h3>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="text-center animate-bounce-in">
+                    <div className="text-2xl font-bold text-red-400">{completedSessions.focus}</div>
+                    <div className="text-sm text-slate-400">{t.focus}</div>
+                  </div>
+                  <div className="text-center animate-bounce-in">
+                    <div className="text-2xl font-bold text-green-400">{completedSessions.shortBreak}</div>
+                    <div className="text-sm text-slate-400">{t.shortBreak}</div>
+                  </div>
+                  <div className="text-center animate-bounce-in">
+                    <div className="text-2xl font-bold text-blue-400">{completedSessions.longBreak}</div>
+                    <div className="text-sm text-slate-400">{t.longBreak}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Tips */}
+            <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-fade-in">
+              <CardContent className="p-4">
+                <div className="text-center text-sm text-slate-300">
+                  💡 <strong>{t.tip.split(':')[0]}:</strong> {t.tip.split(':')[1]}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </div>
 
       <Settings
