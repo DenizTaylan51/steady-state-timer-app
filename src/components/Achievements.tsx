@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Trophy, Star, Target, Zap, Clock, Flame } from 'lucide-react';
+import { Trophy, Star, Target, Zap, Clock, Flame, X } from 'lucide-react';
 import { translations } from '@/utils/translations';
 
 interface AchievementsProps {
@@ -80,7 +80,13 @@ const Achievements: React.FC<AchievementsProps> = ({ isOpen, onClose, language, 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 animate-fade-in">
       <Card className="w-full max-w-2xl bg-slate-800/90 border-slate-700 backdrop-blur-sm max-h-[80vh] overflow-hidden">
-        <CardHeader>
+        <CardHeader className="relative">
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
+          >
+            <X className="w-6 h-6" />
+          </button>
           <CardTitle className="text-white flex items-center gap-2">
             <Trophy className="w-6 h-6 text-yellow-500" />
             {t.achievements}

@@ -143,44 +143,49 @@ const Index = () => {
   return (
     <div className={`min-h-screen ${background} flex items-center justify-center p-4 transition-all duration-500`}>
       <div className="w-full max-w-md space-y-6 animate-fade-in">
-        {/* Header with buttons */}
-        <div className="text-center space-y-2 relative">
-          <div className="absolute top-0 right-0 flex gap-2">
-            <Button
-              onClick={() => setShowBackgroundSettings(true)}
-              variant="outline"
-              size="sm"
-              className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
-            >
-              <Palette className="w-4 h-4" />
-            </Button>
-            <Button
-              onClick={() => setShowAchievements(true)}
-              variant="outline"
-              size="sm"
-              className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
-            >
-              <Trophy className="w-4 h-4" />
-            </Button>
-            <Button
-              onClick={() => setShowSettings(true)}
-              variant="outline"
-              size="sm"
-              className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
-            >
-              <SettingsIcon className="w-4 h-4" />
-            </Button>
-            <Button
-              onClick={() => setShowAbout(true)}
-              variant="outline"
-              size="sm"
-              className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
-            >
-              <Info className="w-4 h-4" />
-            </Button>
+        {/* Header with title and buttons */}
+        <div className="text-center space-y-2">
+          <div className="flex justify-between items-start mb-4">
+            <div className="flex-1"></div>
+            <div className="text-center">
+              <h1 className="text-3xl font-bold text-white animate-bounce-in">{t.appName}</h1>
+              <p className="text-slate-300 animate-fade-in">{t.tagline}</p>
+            </div>
+            <div className="flex gap-2 flex-1 justify-end">
+              <Button
+                onClick={() => setShowBackgroundSettings(true)}
+                variant="outline"
+                size="sm"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+              >
+                <Palette className="w-4 h-4" />
+              </Button>
+              <Button
+                onClick={() => setShowAchievements(true)}
+                variant="outline"
+                size="sm"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+              >
+                <Trophy className="w-4 h-4" />
+              </Button>
+              <Button
+                onClick={() => setShowSettings(true)}
+                variant="outline"
+                size="sm"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+              >
+                <SettingsIcon className="w-4 h-4" />
+              </Button>
+              <Button
+                onClick={() => setShowAbout(true)}
+                variant="outline"
+                size="sm"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700 animate-scale-in"
+              >
+                <Info className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-white animate-bounce-in">{t.appName}</h1>
-          <p className="text-slate-300 animate-fade-in">{t.tagline}</p>
         </div>
 
         {/* Mode Selector */}
