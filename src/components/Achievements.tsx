@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Trophy, Star, Target, Zap, Clock, Fire } from 'lucide-react';
+import { Trophy, Star, Target, Zap, Clock, Flame } from 'lucide-react';
 import { translations } from '@/utils/translations';
 
 interface AchievementsProps {
@@ -33,7 +33,7 @@ const achievements: Achievement[] = [
   { id: 'focus-legend', icon: <Trophy className="w-6 h-6" />, nameKey: 'focusLegend', descriptionKey: 'focusLegendDesc', requirement: 50, type: 'focus', color: 'bg-purple-500' },
   { id: 'break-taker', icon: <Clock className="w-6 h-6" />, nameKey: 'breakTaker', descriptionKey: 'breakTakerDesc', requirement: 5, type: 'shortBreak', color: 'bg-green-500' },
   { id: 'rest-master', icon: <Zap className="w-6 h-6" />, nameKey: 'restMaster', descriptionKey: 'restMasterDesc', requirement: 3, type: 'longBreak', color: 'bg-indigo-500' },
-  { id: 'streak-fire', icon: <Fire className="w-6 h-6" />, nameKey: 'streakFire', descriptionKey: 'streakFireDesc', requirement: 100, type: 'total', color: 'bg-red-500' }
+  { id: 'streak-fire', icon: <Flame className="w-6 h-6" />, nameKey: 'streakFire', descriptionKey: 'streakFireDesc', requirement: 100, type: 'total', color: 'bg-red-500' }
 ];
 
 const Achievements: React.FC<AchievementsProps> = ({ isOpen, onClose, language, completedSessions }) => {
