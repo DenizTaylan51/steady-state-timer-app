@@ -143,16 +143,16 @@ const Index = () => {
 
   return (
     <div className={`min-h-screen ${background} transition-all duration-500 flex flex-col`}>
-      {/* Ana İçerik - Flex-1 ile genişletildi */}
+      {/* Ana İçerik - Tam ekran */}
       <div className="flex-1 flex items-center justify-center p-2 sm:p-4">
         <div className="w-full max-w-4xl space-y-3 sm:space-y-4 animate-fade-in">
-          {/* Header */}
-          <div className="flex justify-between items-center mb-2 sm:mb-4">
-            <div className="text-center">
-              <h1 className="text-xl sm:text-2xl font-bold text-white animate-bounce-in">{t.appName}</h1>
-              <p className="text-xs sm:text-sm text-slate-300 animate-fade-in">{t.tagline}</p>
-            </div>
-            <div className="flex gap-1 sm:gap-2">
+          {/* Header - Ortalanmış */}
+          <div className="text-center mb-4 sm:mb-6">
+            <h1 className="text-xl sm:text-2xl font-bold text-white animate-bounce-in mb-2">Fokusio</h1>
+            <p className="text-xs sm:text-sm text-slate-300 animate-fade-in">Odaklanın ve başarın 🎯</p>
+            
+            {/* Butonlar sağ üstte */}
+            <div className="absolute top-4 right-4 flex gap-1 sm:gap-2">
               <Button
                 onClick={() => setShowStats(true)}
                 variant="outline"
@@ -266,7 +266,7 @@ const Index = () => {
               </Button>
             </div>
 
-            {/* Tips - Daha kompakt */}
+            {/* Tips - Ortalanmış */}
             <Card className="bg-slate-800/30 border-slate-700 backdrop-blur-sm animate-fade-in w-full max-w-md">
               <CardContent className="p-3">
                 <div className="text-center text-xs sm:text-sm text-slate-300">
@@ -274,17 +274,6 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </div>
-      </div>
-
-      {/* Reklam Alanı - Alt kısımda */}
-      <div className="bg-slate-900/80 border-t border-slate-700 p-2 animate-fade-in">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-3 text-center border border-slate-600">
-            <div className="text-xs text-slate-400 mb-1">Sponsored</div>
-            <div className="text-sm text-white">🎯 Premium Pomodoro - Daha fazla özellik için yükseltin!</div>
-            <div className="text-xs text-slate-400 mt-1">Reklamları kaldır • Sınırsız tema • İstatistikler</div>
           </div>
         </div>
       </div>
@@ -363,7 +352,7 @@ const Index = () => {
         </div>
       )}
 
-      {/* Diğer modaller aynı kalacak */}
+      {/* Diğer modaller */}
       <Settings
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
