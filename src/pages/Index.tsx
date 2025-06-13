@@ -142,9 +142,9 @@ const Index = () => {
   const progress = ((updatedModes[currentMode as keyof typeof updatedModes].duration - timeLeft) / updatedModes[currentMode as keyof typeof updatedModes].duration) * 100;
 
   return (
-    <div className={`min-h-screen ${background} transition-all duration-500`}>
-      {/* Sadece Yatay Layout - Tam ekran optimizasyonu */}
-      <div className="flex items-center justify-center p-2 sm:p-4 min-h-screen">
+    <div className={`min-h-screen ${background} transition-all duration-500 flex flex-col`}>
+      {/* Ana İçerik - Flex-1 ile genişletildi */}
+      <div className="flex-1 flex items-center justify-center p-2 sm:p-4">
         <div className="w-full max-w-4xl space-y-3 sm:space-y-4 animate-fade-in">
           {/* Header */}
           <div className="flex justify-between items-center mb-2 sm:mb-4">
@@ -278,6 +278,17 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Reklam Alanı - Alt kısımda */}
+      <div className="bg-slate-900/80 border-t border-slate-700 p-2 animate-fade-in">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-3 text-center border border-slate-600">
+            <div className="text-xs text-slate-400 mb-1">Sponsored</div>
+            <div className="text-sm text-white">🎯 Premium Pomodoro - Daha fazla özellik için yükseltin!</div>
+            <div className="text-xs text-slate-400 mt-1">Reklamları kaldır • Sınırsız tema • İstatistikler</div>
+          </div>
+        </div>
+      </div>
+
       {/* Statistics Modal */}
       {showStats && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 animate-fade-in">
@@ -352,6 +363,7 @@ const Index = () => {
         </div>
       )}
 
+      {/* Diğer modaller aynı kalacak */}
       <Settings
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}

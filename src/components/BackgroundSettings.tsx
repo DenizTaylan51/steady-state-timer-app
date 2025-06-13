@@ -13,26 +13,22 @@ interface BackgroundSettingsProps {
 }
 
 const backgrounds = [
-  { id: 'gradient1', name: 'Gece Gökyüzü', class: 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900' },
-  { id: 'gradient2', name: 'Okyanus', class: 'bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900' },
-  { id: 'gradient3', name: 'Gün Batımı', class: 'bg-gradient-to-br from-orange-900 via-red-800 to-purple-900' },
-  { id: 'gradient4', name: 'Orman', class: 'bg-gradient-to-br from-green-900 via-emerald-800 to-teal-900' },
-  { id: 'gradient5', name: 'Lavanta', class: 'bg-gradient-to-br from-purple-900 via-violet-800 to-indigo-900' },
-  { id: 'gradient6', name: 'Çikolata', class: 'bg-gradient-to-br from-amber-900 via-orange-800 to-red-900' },
-  { id: 'gradient7', name: 'Pembe Rüya', class: 'bg-gradient-to-br from-pink-900 via-rose-800 to-purple-900' },
-  { id: 'gradient8', name: 'Buzul', class: 'bg-gradient-to-br from-cyan-900 via-blue-800 to-slate-900' },
-  { id: 'gradient9', name: 'Altın Saray', class: 'bg-gradient-to-br from-yellow-900 via-amber-800 to-orange-900' },
-  { id: 'gradient10', name: 'Yakut', class: 'bg-gradient-to-br from-red-900 via-rose-800 to-pink-900' },
-  { id: 'gradient11', name: 'Zümrüt', class: 'bg-gradient-to-br from-emerald-900 via-green-800 to-teal-900' },
-  { id: 'gradient12', name: 'Safir', class: 'bg-gradient-to-br from-blue-900 via-indigo-800 to-violet-900' },
-  { id: 'gradient13', name: 'Ametist', class: 'bg-gradient-to-br from-violet-900 via-purple-800 to-fuchsia-900' },
-  { id: 'gradient14', name: 'Bronz', class: 'bg-gradient-to-br from-orange-900 via-amber-800 to-yellow-900' },
-  { id: 'gradient15', name: 'Gümüş', class: 'bg-gradient-to-br from-gray-900 via-slate-800 to-zinc-900' },
-  { id: 'gradient16', name: 'Karamel', class: 'bg-gradient-to-br from-amber-900 via-yellow-800 to-orange-900' },
-  { id: 'gradient17', name: 'Gökkuşağı', class: 'bg-gradient-to-br from-red-900 via-yellow-800 via-green-800 via-blue-800 to-purple-900' },
-  { id: 'gradient18', name: 'Kuzey Işıkları', class: 'bg-gradient-to-br from-green-900 via-cyan-800 to-blue-900' },
-  { id: 'gradient19', name: 'Mars Yüzeyi', class: 'bg-gradient-to-br from-red-900 via-orange-800 to-yellow-900' },
-  { id: 'gradient20', name: 'Derin Uzay', class: 'bg-gradient-to-br from-black via-purple-900 to-indigo-900' }
+  { id: 'sunset', name: 'Gün Batımı', class: 'bg-gradient-to-br from-orange-400 to-red-600' },
+  { id: 'ocean', name: 'Okyanus', class: 'bg-gradient-to-br from-blue-400 to-blue-800' },
+  { id: 'forest', name: 'Orman', class: 'bg-gradient-to-br from-green-400 to-green-800' },
+  { id: 'lavender', name: 'Lavanta', class: 'bg-gradient-to-br from-purple-400 to-purple-800' },
+  { id: 'rose', name: 'Gül Bahçesi', class: 'bg-gradient-to-br from-pink-400 to-rose-600' },
+  { id: 'golden', name: 'Altın Saatler', class: 'bg-gradient-to-br from-yellow-400 to-orange-600' },
+  { id: 'midnight', name: 'Gece Yarısı', class: 'bg-gradient-to-br from-indigo-900 to-purple-900' },
+  { id: 'aurora', name: 'Kutup Işıkları', class: 'bg-gradient-to-br from-green-400 to-cyan-500' },
+  { id: 'cherry', name: 'Kiraz Çiçeği', class: 'bg-gradient-to-br from-pink-300 to-pink-600' },
+  { id: 'emerald', name: 'Zümrüt', class: 'bg-gradient-to-br from-emerald-400 to-emerald-800' },
+  { id: 'sapphire', name: 'Safir', class: 'bg-gradient-to-br from-blue-500 to-indigo-700' },
+  { id: 'coral', name: 'Mercan', class: 'bg-gradient-to-br from-coral-400 to-orange-500' },
+  { id: 'mint', name: 'Nane', class: 'bg-gradient-to-br from-mint-300 to-green-500' },
+  { id: 'peach', name: 'Şeftali', class: 'bg-gradient-to-br from-peach-300 to-orange-400' },
+  { id: 'sky', name: 'Gökyüzü', class: 'bg-gradient-to-br from-sky-300 to-blue-600' },
+  { id: 'wine', name: 'Şarap', class: 'bg-gradient-to-br from-red-600 to-purple-800' }
 ];
 
 const BackgroundSettings: React.FC<BackgroundSettingsProps> = ({
@@ -48,10 +44,10 @@ const BackgroundSettings: React.FC<BackgroundSettingsProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 animate-fade-in">
-      <Card className="w-full max-w-4xl bg-slate-800/90 border-slate-700 backdrop-blur-sm max-h-[80vh] overflow-hidden">
+      <Card className="w-full max-w-3xl bg-slate-800/90 border-slate-700 backdrop-blur-sm max-h-[80vh] overflow-hidden">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle className="text-white">{t.backgroundSettings}</CardTitle>
+            <CardTitle className="text-white">Arka Plan Seçimi</CardTitle>
             <Button
               onClick={onClose}
               variant="ghost"
@@ -89,12 +85,12 @@ const BackgroundSettings: React.FC<BackgroundSettingsProps> = ({
             ))}
           </div>
           <div className="text-center text-sm text-slate-400 mt-4">
-            Dokunarak arka planı değiştirin
+            🎨 Dokunarak arka planı değiştirin
           </div>
         </CardContent>
         <div className="p-4">
           <Button onClick={onClose} className="w-full bg-gradient-to-r from-blue-500 to-indigo-500">
-            {t.close}
+            Kapat
           </Button>
         </div>
       </Card>
